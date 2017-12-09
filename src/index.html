@@ -22,13 +22,21 @@
         constructor(props) {
             super(props);
             this.state = {
-                isMusicPlaying: true,
+                isMusicPlaying: false,
             };
         }
 
         handleClick(event) {
-            this.setState({
-                isMusicPlaying: !this.state.isMusicPlaying,
+            if (this.state.isMusicPlaying) {
+                this.audio.pause();
+            } else {
+                this.audio.play();
+            }
+
+            this.setState(prevState => {
+                return {
+                    isMusicPlaying: !prevState.isMusicPlaying,
+                };
             });
         };
 
@@ -37,6 +45,7 @@
             return (
                 <div>
                     <PlayButton onClick={this.handleClick.bind(this)} isMusicPlaying = {this.state.isMusicPlaying}/>
+                    <audio id = "audio" ref = {(audioTag) => { this.audio = audioTag}}/>
                 </div>
             );
         }
